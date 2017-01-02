@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,12 +34,20 @@ public class ListenerThread extends Thread
      public ConcurrentHashMap<InetAddress, ConcurrentLinkedQueue<Message>> getMessages() {
         return messages;
     }
+     
     public ListenerThread ( int port ) throws IOException
     {
         this.port = port ;
         serverSocket = new ServerSocket(port);
     }
-
+    public void safeStop()
+    {
+        isStopped = true;
+    }
+    public Boolean isStopped()
+    {
+        return isStopped;
+    }
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
@@ -54,14 +64,31 @@ public class ListenerThread extends Thread
     {
         while(!isStopped)
         {
-            Socket cSocket = getConnection();
-            ConnectionThread cs = new ConnectionThread(cSocket, clientList, messages);//beware from gabage collector
+            Socket cSocket;
+            try {
+                cSocket = getConnection();
+                ConnectionThread cs = new ConnectionThread(cSocket, clientList, messages);//beware from gabage collector
+            } catch (IOException ex) {
+                Logger.getLogger(ListenerThread.class.getName()).log(Level.SEVERE, "failed to initialize incoming connection");
+            }
             
             
         }
+        close();
+        
+    }
+    private void close ()
+    {
+        try {
+            serverSocket.close();
+            clientList.clear();
+            messages.clear();
+        } catch (IOException ex) {
+            Logger.getLogger(ListenerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private Socket getConnection()
+    private Socket getConnection() throws IOException
     {
         return serverSocket.accept();
     }
