@@ -44,7 +44,7 @@ public class ConnectionThread extends Thread
 
     /**
      *
-     * @param cSocket
+     * @param cSocket 
      * @param clientList
      * @param messages
      */
@@ -130,6 +130,7 @@ public class ConnectionThread extends Thread
 
     private void returnClientList() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     private void sendMessageToClient(Message m) {// sends message to the client of this specific connection

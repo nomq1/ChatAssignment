@@ -14,7 +14,7 @@ import java.net.InetAddress;
 public class Message 
 {
     private String Sender ;
-    private InetAddress[] clientList ;
+    private InetAddress[] clientList ; 
     private String massage ;
     private MessageType type ;
 public Message(String Sender, InetAddress[] clientList, String massage, MessageType type) {
