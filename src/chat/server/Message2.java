@@ -6,32 +6,36 @@
 package chat.server;
 
 import java.net.InetAddress;
+import java.util.Arrays;
 
 /**
  *
- * @author James&amit
+ * @author James&Amit
  */
-public class Message 
+
+public class Message2 
 {
+
+    @Override
+    public String toString() {
+        return "Message2{" + "Sender=" + Sender + ", clientList=" + Arrays.toString(clientList) + ", massage=" + massage + ", type=" + type + '}';
+    }
     private String Sender ;
-    private InetAddress[] clientList ; 
-    
+    private String[] clientList ;
     private String massage ;
     private MessageType type ;
-    
-public Message(String Sender, InetAddress[] clientList, String massage, MessageType type) {
+
+    public Message2(String Sender, String[] clientList, String massage, MessageType type) {
         this.Sender = Sender;
         this.clientList = clientList;
         this.massage = massage;
         this.type = type;
     }
-
-    public Message(String Sender, MessageType type , InetAddress receiver) {
+      public Message2(String Sender, String[] clientList, MessageType type) {
         this.Sender = Sender;
+        this.clientList = clientList;
+        this.massage = null;
         this.type = type;
-        this.clientList = new InetAddress [1];
-        this.clientList[0]= receiver;
-        this.massage = null; 
     }
 
     public String getSender() {
@@ -42,11 +46,11 @@ public Message(String Sender, InetAddress[] clientList, String massage, MessageT
         this.Sender = Sender;
     }
 
-    public InetAddress[] getClientList() {
+    public String[] getClientList() {
         return clientList;
     }
 
-    public void setClientList(InetAddress[] clientList) {
+    public void setClientList(String[] clientList) {
         this.clientList = clientList;
     }
 
@@ -65,5 +69,6 @@ public Message(String Sender, InetAddress[] clientList, String massage, MessageT
     public void setType(MessageType type) {
         this.type = type;
     }
-
+    
+    
 }
